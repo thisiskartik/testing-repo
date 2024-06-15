@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import User from "../models/userModel.js";
+import User from "../models/User.js";
 import generateToken from "../utils/generateToken.js";
 
 const authUser = asyncHandler(async (req, res) => {
@@ -15,7 +15,6 @@ const authUser = asyncHandler(async (req, res) => {
 			name: user.name,
 			email: user.email,
 			role: user.role,
-			currentStatus: user.role === "student" ? user.currentStatus : undefined,
 			mentorInformation: user.role === "mentor" ? user.mentorInformation.role : undefined,
 		});
 	} else {
@@ -39,7 +38,6 @@ const registerUser = asyncHandler(async (req, res) => {
 		email,
 		password,
 		role,
-		currentStatus: role === "student" ? "looking_for_opportunities" : undefined,
 		mentorInformation: role === "mentor" ? { approval: false } : undefined,
 	});
 
@@ -51,8 +49,7 @@ const registerUser = asyncHandler(async (req, res) => {
 			name: user.name,
 			email: user.email,
 			role: user.role,
-			currentStatus: user.role === "student" ? user.currentStatus : undefined,
-			mentorInformation: user.role === "mentor" ? user.mentorInformation.role : undefined,
+			mentorInformation: user.role === "mentor" ? user.mentorInformation : undefined,
 		});
 	} else {
 		res.status(400);
@@ -77,7 +74,6 @@ const getUserProfile = asyncHandler(async (req, res) => {
 			name: user.name,
 			email: user.email,
 			role: user.role,
-			currentStatus: user.role === "student" ? user.currentStatus : undefined,
 			mentorInformation: user.role === "mentor" ? user.mentorInformation : undefined,
 		});
 	} else {

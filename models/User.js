@@ -21,10 +21,26 @@ const userSchema = mongoose.Schema(
 			enum: ["student", "mentor", "admin"],
 			required: true,
 		},
-		currentStatus: {
+		avatar: {
 			type: String,
-			enum: ["looking_for_opportunities", "applied", "offer_received"],
 		},
+		district: {
+			type: String,
+		},
+		languages: [String],
+		courses: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Course",
+			},
+		],
+
+		coursesTaught: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Course",
+			},
+		],
 		mentorInformation: {
 			speciality: {
 				type: String,
