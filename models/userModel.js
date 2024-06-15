@@ -23,8 +23,7 @@ const userSchema = mongoose.Schema(
 		},
 		currentStatus: {
 			type: String,
-			enum: ["looking_for_opportunities", "applied", "offer_received", "na"],
-			default: "na",
+			enum: ["looking_for_opportunities", "applied", "offer_received"],
 		},
 		mentorInformation: {
 			speciality: {
@@ -35,7 +34,6 @@ const userSchema = mongoose.Schema(
 			},
 			approval: {
 				type: Boolean,
-				default: false,
 			},
 		},
 	},

@@ -40,6 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
 		password,
 		role,
 		currentStatus: role === "student" ? "looking_for_opportunities" : undefined,
+		mentorInformation: role === "mentor" ? { approval: false } : undefined,
 	});
 
 	if (user) {
