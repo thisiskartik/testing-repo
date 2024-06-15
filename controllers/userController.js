@@ -48,7 +48,8 @@ const registerUser = asyncHandler(async (req, res) => {
 			name: user.name,
 			email: user.email,
 			role: user.role,
-			currentStatus: user.currentStatus,
+			currentStatus: user.role === "student" ? user.currentStatus : undefined,
+			mentorROle: user.role === "mentor" ? user.mentorInformation.role : undefined,
 		});
 	} else {
 		res.status(400);
@@ -73,7 +74,8 @@ const getUserProfile = asyncHandler(async (req, res) => {
 			name: user.name,
 			email: user.email,
 			role: user.role,
-			currentStatus: user.currentStatus,
+			currentStatus: user.role === "student" ? user.currentStatus : undefined,
+			mentorInformation: user.role === "mentor" ? user.mentorInformation : undefined,
 		});
 	} else {
 		res.status(404);
@@ -81,19 +83,12 @@ const getUserProfile = asyncHandler(async (req, res) => {
 	}
 });
 
-const updateUserProfile = asyncHandler(async (req, res) => {
+const addMentorInfo = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.user._id);
 
 	if (user) {
-		user.name = req.body.name || user.name;
-		user.email = req.body.email || user.email;
-		user.role = req.body.role || user.role;
-		user.currentStatus = req.body.currentStatus || user.currentStatus;
-
-		if (req.body.password) {
-			user.password = req.body.password;
-		}
-
+		user.mentorInformation.qualification = req.body.qualification;
+		user.mentorInformation.speciality = req.body.speciality;
 		const updatedUser = await user.save();
 
 		res.json({
@@ -101,11 +96,32 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 			name: updatedUser.name,
 			email: updatedUser.email,
 			role: updatedUser.role,
-			currentStatus: updatedUser.currentStatus,
+			mentorInformation: updatedUser.mentorInformation,
 		});
 	} else {
 		res.status(404);
 		throw new Error("User not found");
 	}
 });
-export { authUser, registerUser, logoutUser, getUserProfile, updateUserProfile };
+
+const approveMentorInfo = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.body.mentorId);
+	console.log(user);
+	if (user) {
+		user.mentorInformation.approval = true;
+		const updatedUser = await user.save();
+
+		res.json({
+			_id: updatedUser._id,
+			name: updatedUser.name,
+			email: updatedUser.email,
+			role: updatedUser.role,
+			mentorInformation: updatedUser.mentorInformation,
+		});
+	} else {
+		res.status(400);
+		throw new Error("Mentor not found");
+	}
+});
+
+export { authUser, registerUser, logoutUser, getUserProfile, addMentorInfo, approveMentorInfo };

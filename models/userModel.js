@@ -26,6 +26,18 @@ const userSchema = mongoose.Schema(
 			enum: ["looking_for_opportunities", "applied", "offer_received", "na"],
 			default: "na",
 		},
+		mentorInformation: {
+			speciality: {
+				type: String,
+			},
+			qualification: {
+				type: String,
+			},
+			approval: {
+				type: Boolean,
+				default: false,
+			},
+		},
 	},
 	{
 		timestamps: true,
