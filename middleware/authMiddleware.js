@@ -34,4 +34,31 @@ const protectAdmin = (req, res, next) => {
 	}
 };
 
+const protectVolunteer = (req, res, next) => {
+	if (req.user && req.user.role === "volunteer") {
+		next();
+	} else {
+		res.status(401);
+		throw new Error("Not authorized as a volunteer");
+	}
+};
+
+const protectStudent = (req, res, next) => {
+	if (req.user && req.user.role === "student") {
+		next();
+	} else {
+		res.status(401);
+		throw new Error("Not authorized as a student");
+	}
+};
+
+const protectTeacher = (req, res, next) => {
+	if (req.user && req.user.role === "teacher") {
+		next();
+	} else {
+		res.status(401);
+		throw new Error("Not authorized as a teacher");
+	}
+};
+
 export { protect, protectAdmin };
