@@ -6,7 +6,7 @@ import {
 	getUserProfile,
 	addMentorInfo,
 	approveMentorInfo,
-} from "../controllers/userController.js";
+} from "../controllers/user.js";
 import { protect, protectMentor, protectAdmin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
