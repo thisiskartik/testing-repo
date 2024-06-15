@@ -15,6 +15,8 @@ const authUser = asyncHandler(async (req, res) => {
 			name: user.name,
 			email: user.email,
 			role: user.role,
+			currentStatus: user.role === "student" ? user.currentStatus : undefined,
+			mentorInformation: user.role === "mentor" ? user.mentorInformation.role : undefined,
 		});
 	} else {
 		res.status(401);
@@ -49,7 +51,7 @@ const registerUser = asyncHandler(async (req, res) => {
 			email: user.email,
 			role: user.role,
 			currentStatus: user.role === "student" ? user.currentStatus : undefined,
-			mentorROle: user.role === "mentor" ? user.mentorInformation.role : undefined,
+			mentorInformation: user.role === "mentor" ? user.mentorInformation.role : undefined,
 		});
 	} else {
 		res.status(400);
